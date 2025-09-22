@@ -14105,19 +14105,24 @@ function webViewerLoad() {
   }
 
 
+// Add this message listener to the script that controls the PDF viewer
 window.addEventListener('message', function(event) {
-    // IMPORTANT: Check the origin of the message to ensure security
-    // In a real-world app, replace '*' with the specific origin of your parent page
-    // For example: 'https://naveen1241.github.io'
+    // Check the origin for security in a real-world application
+    // For your GitHub project, this check is fine
     if (event.origin !== event.target.location.origin) {
         return;
     }
 
-    const data = JSON.parse(event.data);
-    if (data.type === 'gotoPage' && PDFViewerApplication) {
-        PDFViewerApplication.page = data.pageNumber;
+    try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'gotoPage' && PDFViewerApplication) {
+            PDFViewerApplication.page = data.pageNumber;
+        }
+    } catch (e) {
+        console.error("Failed to parse message from parent window:", e);
     }
 });
+
 
   
 
