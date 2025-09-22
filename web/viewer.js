@@ -14105,23 +14105,27 @@ function webViewerLoad() {
   }
 
 
-// Add this message listener to the script that controls the PDF viewer
 window.addEventListener('message', function(event) {
-    // Check the origin for security in a real-world application
-    // For your GitHub project, this check is fine
-    if (event.origin !== event.target.location.origin) {
+    // SECURITY CHECK: This is critical.
+    // Explicitly allow messages ONLY from your Weebly site.
+    if (event.origin !== "https://vishnusahasranaamam.weebly.com") {
         return;
     }
 
     try {
         const data = JSON.parse(event.data);
+        
+        // Handle the gotoPage message
         if (data.type === 'gotoPage' && PDFViewerApplication) {
             PDFViewerApplication.page = data.pageNumber;
+            console.log('PDF.js received gotoPage command for page:', data.pageNumber);
         }
+
     } catch (e) {
         console.error("Failed to parse message from parent window:", e);
     }
 });
+
 
 
   
