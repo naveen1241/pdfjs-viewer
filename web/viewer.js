@@ -14103,6 +14103,25 @@ function webViewerLoad() {
     console.error(`webviewerloaded: ${ex}`);
     document.dispatchEvent(event);
   }
+
+
+window.addEventListener('message', function(event) {
+    // IMPORTANT: Check the origin of the message to ensure security
+    // In a real-world app, replace '*' with the specific origin of your parent page
+    // For example: 'https://naveen1241.github.io'
+    if (event.origin !== event.target.location.origin) {
+        return;
+    }
+
+    const data = JSON.parse(event.data);
+    if (data.type === 'gotoPage' && PDFViewerApplication) {
+        PDFViewerApplication.page = data.pageNumber;
+    }
+});
+
+  
+
+  
   _app.PDFViewerApplication.run(config);
 }
 document.blockUnblockOnload?.(true);
