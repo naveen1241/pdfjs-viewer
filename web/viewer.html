@@ -482,5 +482,11 @@ See https://github.com/adobe-type-tools/cmap-resources
     <div id="printContainer"></div>
 
     <input type="file" id="fileInput" class="hidden">
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        window.parent.postMessage({ type: 'viewer-ready' }, '*');
+    });
+</script>
+
   </body>
 </html>
